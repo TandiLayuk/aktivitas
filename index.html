@@ -18,7 +18,7 @@
             --dark-bg: #09090b;
             --card-bg: rgba(24, 24, 27, 0.88);
             --border-color: rgba(255, 255, 255, 0.12);
-            --global-zoom: 1; /* Variabel Zoom Seluruh Halaman */
+            --global-zoom: 1;
         }
 
         /* 12+ Pilihan Tema Komplet */
@@ -104,10 +104,19 @@
             background-size: 200% 200%;
             animation: gradientAnimation 10s ease infinite;
             color: #ffffff;
-            padding: 2rem 1rem 4.5rem;
+            padding: 2rem 1rem 2.5rem; /* Diperkecil agar tidak terlalu memakan ruang ke bawah */
             border-bottom-left-radius: 30px;
             border-bottom-right-radius: 30px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            z-index: 1050;
+        }
+
+        .hero-header .dropdown {
+            position: relative;
+            z-index: 1060;
+        }
+        .hero-header .dropdown-menu {
+            z-index: 1070 !important;
         }
 
         .card-custom {
@@ -435,8 +444,8 @@
             </div>
         </div>
 
-        <!-- Main Container -->
-        <div class="container" style="margin-top: -30px;">
+        <!-- Main Container (Diberikan margin-top positif dan padding yang aman agar tidak tertutup header) -->
+        <div class="container mt-4">
             
             <!-- Notifikasi Alert -->
             <div id="alertBox" class="alert alert-success d-none shadow-sm mb-3">

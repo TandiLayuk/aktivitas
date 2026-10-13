@@ -70,7 +70,6 @@
             position: relative;
         }
 
-        /* Elemen Butiran Animasi di Background */
         .particle-container {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -103,27 +102,19 @@
             background-size: 200% 200%;
             animation: gradientAnimation 10s ease infinite;
             color: #ffffff;
-            padding: 2.5rem 1rem 5rem;
-            border-bottom-left-radius: 40px;
-            border-bottom-right-radius: 40px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-            position: relative;
-            overflow: hidden;
+            padding: 2rem 1rem 4rem;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
         }
 
         .card-custom {
             background: var(--card-bg);
             backdrop-filter: blur(12px);
-            border-radius: 20px;
+            border-radius: 16px;
             border: 1px solid var(--border-color);
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .card-custom:hover {
-            border-color: var(--accent-color);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
-            transform: translateY(-3px);
-            animation: floatAnim 3s ease-in-out infinite;
         }
 
         .btn-theme {
@@ -141,7 +132,7 @@
             box-shadow: 0 5px 20px var(--accent-color);
         }
 
-        /* Navigasi Tab */
+        /* Navigasi Tab Rapi & Tidak Menumpuk di HP */
         .nav-pills {
             display: flex;
             flex-wrap: wrap;
@@ -150,20 +141,16 @@
         .nav-pills .nav-link {
             color: #94a3b8;
             font-weight: 600;
-            font-size: 0.8rem;
-            border-radius: 12px;
+            font-size: 0.75rem;
+            border-radius: 10px;
             background: rgba(255,255,255,0.05);
-            padding: 8px 12px;
+            padding: 7px 10px;
             transition: all 0.25s;
-            flex: 1 1 auto;
+            flex: 1 1 calc(50% - 6px);
             text-align: center;
         }
         @media (min-width: 768px) {
             .nav-pills .nav-link { font-size: 0.85rem; padding: 10px 16px; flex: 0 1 auto; }
-        }
-        .nav-pills .nav-link:hover {
-            color: #ffffff;
-            background: rgba(255,255,255,0.1);
         }
         .nav-pills .nav-link.active {
             background-color: var(--accent-color) !important;
@@ -172,7 +159,7 @@
             animation: pulseGlow 3s infinite;
         }
 
-        /* Kalender Menjadi Kotak Sempurna (Square / 1:1 Aspect Ratio) */
+        /* Kalender Kotak Sempurna (Square 1:1) & Teks Terjaga */
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, minmax(0, 1fr));
@@ -184,9 +171,9 @@
         .calendar-day-header {
             text-align: center;
             font-weight: 700;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: #94a3b8;
-            padding-bottom: 5px;
+            padding-bottom: 4px;
         }
         @media (min-width: 768px) {
             .calendar-day-header { font-size: 0.8rem; }
@@ -194,15 +181,15 @@
         .calendar-cell {
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--border-color);
-            border-radius: 10px;
-            aspect-ratio: 1 / 1; /* Menjamin kotak sempurna */
-            padding: 4px;
+            border-radius: 8px;
+            aspect-ratio: 1 / 1;
+            padding: 3px;
             cursor: pointer;
             position: relative;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            transition: 0.2s;
         }
         @media (min-width: 768px) {
             .calendar-cell { padding: 6px; border-radius: 12px; }
@@ -210,18 +197,15 @@
         .calendar-cell:hover {
             border-color: var(--accent-color);
             background-color: rgba(255, 255, 255, 0.06);
-            transform: scale(1.03);
+            transform: scale(1.02);
         }
         .calendar-cell.has-event {
             border-left: 3px solid var(--accent-color);
             background-color: rgba(255, 255, 255, 0.04);
         }
-        @media (min-width: 768px) {
-            .calendar-cell.has-event { border-left-width: 4px; }
-        }
         .calendar-date-num {
             font-weight: 700;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: #f1f5f9;
             line-height: 1;
         }
@@ -233,31 +217,26 @@
             top: 55%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             opacity: 0.15;
             pointer-events: none;
-            transition: 0.3s;
         }
         @media (min-width: 768px) {
             .empty-day-icon { font-size: 1.3rem; }
         }
-        .calendar-cell:hover .empty-day-icon {
-            opacity: 0.35;
-            transform: translate(-50%, -50%) scale(1.15);
-        }
         .add-btn-cell {
             position: absolute;
-            bottom: 3px;
-            right: 3px;
-            width: 16px;
-            height: 16px;
+            bottom: 2px;
+            right: 2px;
+            width: 14px;
+            height: 14px;
             background: rgba(255,255,255,0.1);
             color: #cbd5e1;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.55rem;
+            font-size: 0.5rem;
             opacity: 0;
             transition: 0.2s;
         }
@@ -271,9 +250,9 @@
             transform: scale(1.1);
         }
         .event-badge {
-            font-size: 0.45rem;
-            padding: 1px 3px;
-            border-radius: 3px;
+            font-size: 0.4rem;
+            padding: 1px 2px;
+            border-radius: 2px;
             margin-top: 1px;
             display: block;
             overflow: hidden;
@@ -281,65 +260,52 @@
             white-space: nowrap;
             color: #ffffff;
             font-weight: 600;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-            transition: 0.2s;
         }
         @media (min-width: 768px) {
             .event-badge { font-size: 0.55rem; padding: 2px 5px; border-radius: 4px; margin-top: 2px; }
         }
-        .event-badge:hover {
-            filter: brightness(1.2);
-            transform: scale(1.02);
-        }
 
-        /* Timeline Jam & Proyek */
+        /* Timeline & Proyek */
         .timeline-item {
             border-left: 3px solid var(--accent-color);
-            padding-left: 14px;
+            padding-left: 12px;
             position: relative;
-            margin-bottom: 1.2rem;
+            margin-bottom: 1rem;
             cursor: pointer;
             transition: transform 0.2s, background 0.2s;
-            border-radius: 0 12px 12px 0;
+            border-radius: 0 10px 10px 0;
             padding-top: 4px;
             padding-bottom: 4px;
         }
-        @media (min-width: 768px) {
-            .timeline-item { padding-left: 18px; }
-        }
         .timeline-item:hover {
-            transform: translateX(6px);
+            transform: translateX(4px);
             background: rgba(255,255,255,0.02);
         }
         .timeline-item::before {
             content: '';
             position: absolute;
             left: -6.5px;
-            top: 10px;
-            width: 10px;
-            height: 10px;
+            top: 8px;
+            width: 9px;
+            height: 9px;
             border-radius: 50%;
             background: var(--accent-color);
-            box-shadow: 0 0 10px var(--accent-color);
+            box-shadow: 0 0 8px var(--accent-color);
             animation: pulseGlow 2s infinite;
         }
 
         .badge-category {
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             padding: 2px 6px;
             border-radius: 6px;
             font-weight: 600;
         }
-        @media (min-width: 768px) {
-            .badge-category { font-size: 0.7rem; padding: 3px 8px; }
-        }
 
-        /* Grid Pemilih Ikon (Scrollable & Rimbun) */
         .icon-grid {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
             gap: 6px;
-            max-height: 200px;
+            max-height: 180px;
             overflow-y: auto;
             padding: 8px;
             background: rgba(0,0,0,0.3);
@@ -348,7 +314,7 @@
             scrollbar-width: thin;
             scrollbar-color: var(--accent-color) transparent;
         }
-        .icon-grid::-webkit-scrollbar { width: 6px; }
+        .icon-grid::-webkit-scrollbar { width: 5px; }
         .icon-grid::-webkit-scrollbar-thumb { background-color: var(--accent-color); border-radius: 10px; }
         
         .icon-option {
@@ -356,7 +322,7 @@
             padding: 8px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 1.1rem;
+            font-size: 1rem;
             background: rgba(255,255,255,0.05);
             border: 1px solid var(--border-color);
             color: #cbd5e1;
@@ -366,13 +332,12 @@
             background-color: var(--accent-color);
             color: #ffffff;
             border-color: var(--accent-color);
-            transform: scale(1.1);
+            transform: scale(1.08);
         }
 
-        /* Warna Jadwal Selector */
         .color-dot {
-            width: 26px;
-            height: 26px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
             cursor: pointer;
             border: 2px solid transparent;
@@ -384,9 +349,8 @@
             box-shadow: 0 0 10px rgba(255,255,255,0.5);
         }
 
-        /* Progress Bar Proyek Panjang */
         .progress-custom {
-            height: 8px;
+            height: 7px;
             background: rgba(255,255,255,0.1);
             border-radius: 10px;
             overflow: hidden;
@@ -397,14 +361,13 @@
             animation: pulseGlow 2s infinite;
         }
 
-        /* Modal Gelap & Animatif */
         .modal-content {
             background: #18181b !important;
             color: #f8fafc !important;
             border: 1px solid var(--border-color) !important;
         }
         .modal.fade .modal-dialog {
-            transform: scale(0.8);
+            transform: scale(0.85);
             transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .modal.show .modal-dialog { transform: scale(1); }
@@ -440,67 +403,70 @@
     <div class="hero-header">
         <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
             <div>
-                <span class="badge bg-white text-dark fw-bold px-3 py-1 rounded-pill mb-2 shadow-sm" style="font-size: 0.75rem;">
+                <span class="badge bg-white text-dark fw-bold px-3 py-1 rounded-pill mb-2 shadow-sm" style="font-size: 0.7rem;">
                     <i class="fas fa-calendar-check me-1"></i> Manajemen Jadwal Hierarkis & Target Jangka Panjang
                 </span>
                 <h1 class="fw-extrabold mb-1 fs-4 fs-md-2">Agenda & Proyek Pribadi</h1>
-                <p class="text-white-50 mb-0 small">Harian ➔ Mingguan ➔ Bulanan ➔ Tahunan & Proyek Multi-Hari</p>
+                <p class="text-white-50 mb-0" style="font-size: 0.8rem;">Harian ➔ Mingguan ➔ Bulanan ➔ Tahunan & Proyek Multi-Hari</p>
             </div>
-            <div class="d-flex align-items-center gap-2 flex-wrap">
-                <!-- Dropdown Pengaturan Tema -->
+            <div class="d-flex align-items-center gap-2 flex-wrap w-100 w-md-auto justify-content-start justify-content-md-end">
                 <div class="dropdown">
-                    <button class="btn btn-dark btn-sm fw-bold dropdown-toggle rounded-pill px-3 shadow-sm border border-secondary" type="button" data-bs-toggle="dropdown">
-                        <i class="fas fa-palette me-1"></i> Pilih Tema Warna
+                    <button class="btn btn-dark btn-sm fw-bold dropdown-toggle rounded-pill px-3 shadow-sm border border-secondary" type="button" data-bs-toggle="dropdown" style="font-size: 0.78rem;">
+                        <i class="fas fa-palette me-1"></i> Tema Warna
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow border border-secondary rounded-3 p-2" style="max-height: 300px; overflow-y: auto;">
-                        <li><a class="dropdown-item rounded py-2 small" href="#" onclick="setTheme('theme-neon')"><i class="fas fa-circle text-success me-2"></i>Neon Emerald</a></li>
-                        <li><a class="dropdown-item rounded py-2 small" href="#" onclick="setTheme('theme-cyber')"><i class="fas fa-circle me-2" style="color: #8b5cf6;"></i>Cyber Purple</a></li>
-                        <li><a class="dropdown-item rounded py-2 small" href="#" onclick="setTheme('theme-sunset')"><i class="fas fa-circle me-2" style="color: #fb923c;"></i>Dark Sunset</a></li>
-                        <li><a class="dropdown-item rounded py-2 small" href="#" onclick="setTheme('theme-deepspace')"><i class="fas fa-circle me-2" style="color: #38bdf8;"></i>Deep Space Blue</a></li>
-                        <li><a class="dropdown-item rounded py-2 small" href="#" onclick="setTheme('theme-darkrose')"><i class="fas fa-circle me-2" style="color: #fb7185;"></i>Dark Rose</a></li>
-                        <li><a class="dropdown-item rounded py-2 small" href="#" onclick="setTheme('theme-midnight')"><i class="fas fa-circle me-2" style="color: #6366f1;"></i>Midnight Black</a></li>
-                        <li><a class="dropdown-item rounded py-2 small" href="#" onclick="setTheme('theme-gold')"><i class="fas fa-circle me-2" style="color: #fbbf24;"></i>Royal Gold</a></li>
-                        <li><a class="dropdown-item rounded py-2 small" href="#" onclick="setTheme('theme-ruby')"><i class="fas fa-circle me-2" style="color: #f87171;"></i>Crimson Ruby</a></li>
-                        <li><a class="dropdown-item rounded py-2 small" href="#" onclick="setTheme('theme-cyan')"><i class="fas fa-circle me-2" style="color: #22d3ee;"></i>Electric Cyan</a></li>
-                        <li><a class="dropdown-item rounded py-2 small" href="#" onclick="setTheme('theme-forest')"><i class="fas fa-circle me-2" style="color: #059669;"></i>Forest Emerald</a></li>
-                        <li><a class="dropdown-item rounded py-2 small" href="#" onclick="setTheme('theme-flame')"><i class="fas fa-circle me-2" style="color: #fdba74;"></i>Sunset Flame</a></li>
-                        <li><a class="dropdown-item rounded py-2 small" href="#" onclick="setTheme('theme-amethyst')"><i class="fas fa-circle me-2" style="color: #c084fc;"></i>Amethyst Glow</a></li>
+                    <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow border border-secondary rounded-3 p-2" style="max-height: 250px; overflow-y: auto;">
+                        <li><a class="dropdown-item rounded py-1.5 small" href="#" onclick="setTheme('theme-neon')"><i class="fas fa-circle text-success me-2"></i>Neon Emerald</a></li>
+                        <li><a class="dropdown-item rounded py-1.5 small" href="#" onclick="setTheme('theme-cyber')"><i class="fas fa-circle me-2" style="color: #8b5cf6;"></i>Cyber Purple</a></li>
+                        <li><a class="dropdown-item rounded py-1.5 small" href="#" onclick="setTheme('theme-sunset')"><i class="fas fa-circle me-2" style="color: #fb923c;"></i>Dark Sunset</a></li>
+                        <li><a class="dropdown-item rounded py-1.5 small" href="#" onclick="setTheme('theme-deepspace')"><i class="fas fa-circle me-2" style="color: #38bdf8;"></i>Deep Space Blue</a></li>
+                        <li><a class="dropdown-item rounded py-1.5 small" href="#" onclick="setTheme('theme-darkrose')"><i class="fas fa-circle me-2" style="color: #fb7185;"></i>Dark Rose</a></li>
+                        <li><a class="dropdown-item rounded py-1.5 small" href="#" onclick="setTheme('theme-midnight')"><i class="fas fa-circle me-2" style="color: #6366f1;"></i>Midnight Black</a></li>
+                        <li><a class="dropdown-item rounded py-1.5 small" href="#" onclick="setTheme('theme-gold')"><i class="fas fa-circle me-2" style="color: #fbbf24;"></i>Royal Gold</a></li>
+                        <li><a class="dropdown-item rounded py-1.5 small" href="#" onclick="setTheme('theme-ruby')"><i class="fas fa-circle me-2" style="color: #f87171;"></i>Crimson Ruby</a></li>
+                        <li><a class="dropdown-item rounded py-1.5 small" href="#" onclick="setTheme('theme-cyan')"><i class="fas fa-circle me-2" style="color: #22d3ee;"></i>Electric Cyan</a></li>
+                        <li><a class="dropdown-item rounded py-1.5 small" href="#" onclick="setTheme('theme-forest')"><i class="fas fa-circle me-2" style="color: #059669;"></i>Forest Emerald</a></li>
+                        <li><a class="dropdown-item rounded py-1.5 small" href="#" onclick="setTheme('theme-flame')"><i class="fas fa-circle me-2" style="color: #fdba74;"></i>Sunset Flame</a></li>
+                        <li><a class="dropdown-item rounded py-1.5 small" href="#" onclick="setTheme('theme-amethyst')"><i class="fas fa-circle me-2" style="color: #c084fc;"></i>Amethyst Glow</a></li>
                     </ul>
                 </div>
-                <button class="btn btn-light fw-bold shadow-sm rounded-pill px-3 py-2 btn-sm text-dark" data-bs-toggle="modal" data-bs-target="#modalJadwal" onclick="prepareAddModal()">
-                    <i class="fas fa-plus-circle me-1 text-success"></i> Tambah Agenda/Proyek
+                <button class="btn btn-light fw-bold shadow-sm rounded-pill px-3 py-1.5 btn-sm text-dark" data-bs-toggle="modal" data-bs-target="#modalJadwal" onclick="prepareAddModal()" style="font-size: 0.78rem;">
+                    <i class="fas fa-plus-circle me-1 text-success"></i> Tambah Agenda
                 </button>
             </div>
         </div>
     </div>
 
     <!-- Main Container -->
-    <div class="container" style="margin-top: -35px;">
+    <div class="container" style="margin-top: -30px;">
         
         <!-- Notifikasi Alert -->
-        <div id="alertBox" class="alert alert-success d-none shadow-sm mb-4">
+        <div id="alertBox" class="alert alert-success d-none shadow-sm mb-3">
             <i class="fas fa-check-circle me-2"></i><span id="alertMessage">Berhasil memperbarui data!</span>
         </div>
 
-        <!-- Panel Filter & Navigasi Kiri Kanan -->
-        <div class="card-custom p-3 p-md-4 mb-4">
-            <div class="row align-items-center g-3">
-                <div class="col-md-8 d-flex align-items-center gap-2 flex-wrap">
-                    <button class="btn btn-outline-light btn-sm px-2.5 py-1.5 rounded-pill" onclick="shiftMonth(-1)" title="Bulan Sebelumnya"><i class="fas fa-chevron-left"></i></button>
-                    <select class="form-select form-select-sm fw-bold rounded-pill px-3 bg-dark text-light border-secondary" id="filterMonth" onchange="renderApp()" style="max-width: 140px;">
+        <!-- Panel Filter, Pilihan Bulan, Tahun, & Tanggal Spesifik -->
+        <div class="card-custom p-3 mb-3">
+            <div class="row align-items-center g-2">
+                <div class="col-12 col-lg-8 d-flex align-items-center gap-1 gap-md-2 flex-wrap">
+                    <button class="btn btn-outline-light btn-sm px-2 py-1 rounded-pill" onclick="shiftMonth(-1)" title="Bulan Sebelumnya"><i class="fas fa-chevron-left"></i></button>
+                    <select class="form-select form-select-sm fw-bold rounded-pill px-2 bg-dark text-light border-secondary" id="filterMonth" onchange="onMonthOrYearChange()" style="max-width: 115px; font-size: 0.78rem;">
                         <option value="1">Januari</option><option value="2">Februari</option><option value="3">Maret</option>
                         <option value="4">April</option><option value="5">Mei</option><option value="6">Juni</option>
                         <option value="7">Juli</option><option value="8">Agustus</option><option value="9">September</option>
                         <option value="10">Oktober</option><option value="11">November</option><option value="12">Desember</option>
                     </select>
-                    <!-- Input Tahun Tanpa Batas -->
-                    <div class="input-group input-group-sm" style="max-width: 130px;">
-                        <input type="number" class="form-control fw-bold text-center rounded-pill bg-dark text-light border-secondary" id="filterYear" onchange="renderApp()" value="2026">
+                    <div class="input-group input-group-sm" style="max-width: 90px;">
+                        <input type="number" class="form-control fw-bold text-center rounded-pill bg-dark text-light border-secondary px-1" id="filterYear" onchange="onMonthOrYearChange()" value="2026" style="font-size: 0.78rem;">
                     </div>
-                    <button class="btn btn-outline-light btn-sm px-2.5 py-1.5 rounded-pill" onclick="shiftMonth(1)" title="Bulan Berikutnya"><i class="fas fa-chevron-right"></i></button>
+                    <button class="btn btn-outline-light btn-sm px-2 py-1 rounded-pill" onclick="shiftMonth(1)" title="Bulan Berikutnya"><i class="fas fa-chevron-right"></i></button>
+                    
+                    <!-- Pilihan Tanggal Spesifik (Date Scroller/Picker) -->
+                    <div class="input-group input-group-sm ms-auto ms-lg-0" style="max-width: 150px;">
+                        <input type="date" class="form-control fw-bold rounded-pill bg-dark text-light border-secondary px-2 text-center" id="specificDateFilter" onchange="onSpecificDateChange()" title="Pilih Tanggal Langsung" style="font-size: 0.75rem;">
+                    </div>
                 </div>
-                <div class="col-md-4 text-md-end">
-                    <button class="btn btn-outline-danger btn-sm rounded-pill px-3 fw-semibold w-100 w-md-auto" onclick="cleanExpiredSchedules()">
+                <div class="col-12 col-lg-4 text-lg-end mt-2 mt-lg-0">
+                    <button class="btn btn-outline-danger btn-sm rounded-pill px-3 fw-semibold w-100" onclick="cleanExpiredSchedules()" style="font-size: 0.75rem;">
                         <i class="fas fa-broom me-1"></i> Bersihkan Jadwal Lewat
                     </button>
                 </div>
@@ -530,8 +496,8 @@
             <div class="tab-pane fade show active" id="viewCalendar" role="tabpanel">
                 <div class="card-custom p-3 p-md-4">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h4 class="fw-bold text-light mb-0 fs-5" id="calendarTitle">Kalender Bulan</h4>
-                        <span class="badge bg-success px-3 py-1.5 rounded-pill small" id="totalMonthEvents">0 Agenda</span>
+                        <h4 class="fw-bold text-light mb-0" style="font-size: 1rem;" id="calendarTitle">Kalender Bulan</h4>
+                        <span class="badge bg-success px-2.5 py-1 rounded-pill" style="font-size: 0.7rem;" id="totalMonthEvents">0 Agenda</span>
                     </div>
                     
                     <div class="calendar-grid mb-2">
@@ -552,29 +518,29 @@
             <div class="tab-pane fade" id="viewDaily" role="tabpanel">
                 <div class="card-custom p-3 p-md-4">
                     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2 mb-3">
-                        <h4 class="fw-bold text-light mb-0 fs-5"><i class="fas fa-list-ul text-success me-2"></i> Rincian Jam Harian & Konflik Bertumpuk</h4>
-                        <input type="date" id="selectedDateInput" class="form-control w-auto form-control-sm rounded-pill px-3 bg-dark text-light border-secondary" onchange="renderDailyView()">
+                        <h4 class="fw-bold text-light mb-0" style="font-size: 1rem;"><i class="fas fa-list-ul text-success me-2"></i> Rincian Jam Harian & Konflik</h4>
+                        <input type="date" id="selectedDateInput" class="form-control w-auto form-control-sm rounded-pill px-3 bg-dark text-light border-secondary" onchange="renderDailyView()" style="font-size: 0.8rem;">
                     </div>
                     <hr class="border-secondary">
-                    <div id="dailyTimelineContainer" class="mt-3"></div>
+                    <div id="dailyTimelineContainer" class="mt-2"></div>
                 </div>
             </div>
 
             <!-- TARGET JANGKA PANJANG -->
             <div class="tab-pane fade" id="viewProjects" role="tabpanel">
                 <div class="card-custom p-3 p-md-4">
-                    <h4 class="fw-bold text-light mb-3 fs-5"><i class="fas fa-flag-checkered text-success me-2"></i> Progress Proyek & Target Jangka Panjang</h4>
-                    <p class="text-secondary small">Daftar agenda yang dikerjakan berhari-hari, berminggu-minggu, berbulan-bulan, hingga bertahun-tahun lengkap dengan kalkulator progres target.</p>
+                    <h4 class="fw-bold text-light mb-2" style="font-size: 1rem;"><i class="fas fa-flag-checkered text-success me-2"></i> Progress Proyek & Target Panjang</h4>
+                    <p class="text-secondary" style="font-size: 0.78rem;">Daftar agenda yang dikerjakan berhari-hari, berminggu-minggu, hingga bertahun-tahun.</p>
                     <hr class="border-secondary">
-                    <div id="projectsContainer" class="mt-3 row g-3"></div>
+                    <div id="projectsContainer" class="mt-2 row g-3"></div>
                 </div>
             </div>
 
             <!-- KATEGORI & PRIORITAS -->
             <div class="tab-pane fade" id="viewCategories" role="tabpanel">
                 <div class="card-custom p-3 p-md-4">
-                    <h4 class="fw-bold text-light mb-3 fs-5"><i class="fas fa-tags text-success me-2"></i> Pengelompokan Berdasarkan Prioritas</h4>
-                    <div class="row g-4 mt-2" id="priorityCategoriesContainer">
+                    <h4 class="fw-bold text-light mb-3" style="font-size: 1rem;"><i class="fas fa-tags text-success me-2"></i> Berdasarkan Prioritas</h4>
+                    <div class="row g-3 mt-1" id="priorityCategoriesContainer">
                         <!-- Diisi via JS -->
                     </div>
                 </div>
@@ -588,25 +554,25 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border shadow-lg rounded-4 p-2">
                 <div class="modal-header border-0 pb-0">
-                    <span class="badge bg-success px-3 py-1.5 rounded-pill" id="detailCategory">Kategori</span>
+                    <span class="badge bg-success px-3 py-1 rounded-pill" id="detailCategory" style="font-size: 0.75rem;">Kategori</span>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="modal-body text-center pt-2 pb-4 px-4">
-                    <div class="display-4 mb-3" id="detailIconContainer">
+                <div class="modal-body text-center pt-1 pb-3 px-3">
+                    <div class="fs-1 mb-2" id="detailIconContainer">
                         <i class="fas fa-calendar-day" id="detailIcon"></i>
                     </div>
-                    <h3 class="fw-bold text-light fs-4 mb-2" id="detailTitle">Judul Agenda</h3>
-                    <span class="badge bg-secondary mb-3" id="detailPriority">Prioritas</span>
+                    <h3 class="fw-bold text-light fs-5 mb-1" id="detailTitle">Judul Agenda</h3>
+                    <span class="badge bg-secondary mb-3" id="detailPriority" style="font-size: 0.7rem;">Prioritas</span>
                     
-                    <div class="bg-black bg-opacity-50 p-3 rounded-3 text-start mb-3 border border-secondary">
-                        <p class="mb-2 small text-light"><i class="fas fa-clock text-success me-2"></i><strong>Waktu:</strong> <span id="detailTime">08:00 - 10:30</span></p>
-                        <p class="mb-2 small text-light"><i class="fas fa-calendar-alt text-success me-2"></i><strong>Rentang Tanggal:</strong> <span id="detailDate">2026-10-13</span></p>
-                        <p class="mb-2 small text-light" id="detailDurationRow"><i class="fas fa-hourglass-half text-success me-2"></i><strong>Durasi Target:</strong> <span id="detailDuration">1 Hari</span></p>
-                        <p class="mb-0 small text-light"><i class="fas fa-redo text-success me-2"></i><strong>Pengulangan:</strong> <span id="detailRepeat">Sekali Saja</span></p>
+                    <div class="bg-black bg-opacity-50 p-2.5 rounded-3 text-start mb-3 border border-secondary" style="font-size: 0.8rem;">
+                        <p class="mb-1.5 text-light"><i class="fas fa-clock text-success me-2"></i><strong>Waktu:</strong> <span id="detailTime">08:00 - 10:30</span></p>
+                        <p class="mb-1.5 text-light"><i class="fas fa-calendar-alt text-success me-2"></i><strong>Rentang:</strong> <span id="detailDate">2026-10-13</span></p>
+                        <p class="mb-1.5 text-light d-none" id="detailDurationRow"><i class="fas fa-hourglass-half text-success me-2"></i><strong>Durasi:</strong> <span id="detailDuration">1 Hari</span></p>
+                        <p class="mb-0 text-light"><i class="fas fa-redo text-success me-2"></i><strong>Pengulangan:</strong> <span id="detailRepeat">Sekali Saja</span></p>
                     </div>
 
-                    <div id="detailProgressSection" class="mb-3 text-start d-none">
-                        <div class="d-flex justify-content-between small mb-1">
+                    <div id="detailProgressSection" class="mb-3 text-start d-none" style="font-size: 0.8rem;">
+                        <div class="d-flex justify-content-between mb-1">
                             <span>Target Penyelesaian</span>
                             <span id="detailProgressText">0%</span>
                         </div>
@@ -615,11 +581,11 @@
                         </div>
                     </div>
 
-                    <p class="text-secondary small text-start mb-0 p-2 bg-dark rounded border border-secondary" id="detailDesc">Tidak ada catatan tambahan.</p>
+                    <p class="text-secondary text-start mb-0 p-2 bg-dark rounded border border-secondary" style="font-size: 0.75rem;" id="detailDesc">Tidak ada catatan tambahan.</p>
                 </div>
                 <div class="modal-footer border-0 pt-0 justify-content-center gap-2">
-                    <button type="button" class="btn btn-outline-primary btn-sm px-4 rounded-pill" id="detailEditBtn"><i class="fas fa-edit me-1"></i> Edit</button>
-                    <button type="button" class="btn btn-outline-danger btn-sm px-4 rounded-pill" id="detailDeleteBtn"><i class="fas fa-trash me-1"></i> Hapus</button>
+                    <button type="button" class="btn btn-outline-primary btn-sm px-3 rounded-pill" id="detailEditBtn" style="font-size: 0.75rem;"><i class="fas fa-edit me-1"></i> Edit</button>
+                    <button type="button" class="btn btn-outline-danger btn-sm px-3 rounded-pill" id="detailDeleteBtn" style="font-size: 0.75rem;"><i class="fas fa-trash me-1"></i> Hapus</button>
                 </div>
             </div>
         </div>
@@ -629,32 +595,32 @@
     <div class="modal fade" id="modalJadwal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content border shadow-lg rounded-4">
-                <div class="modal-header bg-success text-white">
-                    <h5 class="modal-title fw-bold fs-6" id="modalTitleText"><i class="fas fa-plus-circle me-2"></i> Tambah Agenda / Proyek Baru</h5>
+                <div class="modal-header bg-success text-white py-2 px-3">
+                    <h5 class="modal-title fw-bold" style="font-size: 0.9rem;" id="modalTitleText"><i class="fas fa-plus-circle me-2"></i> Tambah Agenda / Proyek Baru</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <form onsubmit="handleSaveJadwal(event)">
                     <input type="hidden" id="editScheduleId">
                     <input type="hidden" id="selectedIcon" value="fa-calendar-day">
                     <input type="hidden" id="selectedColor" value="#10b981">
-                    <div class="modal-body p-4">
-                        <div class="row g-3">
+                    <div class="modal-body p-3" style="font-size: 0.82rem;">
+                        <div class="row g-2">
                             <div class="col-md-7">
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold small">Judul Kegiatan / Proyek</label>
-                                    <input type="text" class="form-control form-control-sm bg-dark text-light border-secondary" id="formTitle" placeholder="Cth: Skripsi / Pengembangan Sistem" required>
+                                <div class="mb-2">
+                                    <label class="form-label fw-bold small mb-1">Judul Kegiatan / Proyek</label>
+                                    <input type="text" class="form-control form-control-sm bg-dark text-light border-secondary" id="formTitle" placeholder="Cth: Skripsi / Pengembangan Sistem" required style="font-size: 0.8rem;">
                                 </div>
-                                <div class="row g-2 mb-3">
+                                <div class="row g-2 mb-2">
                                     <div class="col-6">
-                                        <label class="form-label fw-bold small">Jenis Agenda</label>
-                                        <select class="form-select form-select-sm bg-dark text-light border-secondary" id="formScheduleType" onchange="toggleScheduleTypeFields()">
+                                        <label class="form-label fw-bold small mb-1">Jenis Agenda</label>
+                                        <select class="form-select form-select-sm bg-dark text-light border-secondary" id="formScheduleType" onchange="toggleScheduleTypeFields()" style="font-size: 0.8rem;">
                                             <option value="harian">Harian (Beberapa Jam)</option>
-                                            <option value="proyek">Proyek Jangka Panjang (Hari/Bulan/Tahun)</option>
+                                            <option value="proyek">Proyek Jangka Panjang</option>
                                         </select>
                                     </div>
                                     <div class="col-6">
-                                        <label class="form-label fw-bold small">Prioritas</label>
-                                        <select class="form-select form-select-sm bg-dark text-light border-secondary" id="formPriority">
+                                        <label class="form-label fw-bold small mb-1">Prioritas</label>
+                                        <select class="form-select form-select-sm bg-dark text-light border-secondary" id="formPriority" style="font-size: 0.8rem;">
                                             <option value="Rendah">Rendah</option>
                                             <option value="Sedang" selected>Sedang</option>
                                             <option value="Tinggi">Tinggi</option>
@@ -663,12 +629,12 @@
                                 </div>
 
                                 <!-- Waktu Harian -->
-                                <div class="row g-2 mb-3" id="timeFieldsWrapper">
+                                <div class="row g-2 mb-2" id="timeFieldsWrapper">
                                     <div class="col-6">
-                                        <label class="form-label fw-bold small">Waktu Mulai (HH:MM)</label>
+                                        <label class="form-label fw-bold small mb-1">Waktu Mulai (HH:MM)</label>
                                         <div class="input-group input-group-sm">
-                                            <input type="text" class="form-control bg-dark text-light border-secondary" id="formStartTime" placeholder="08:00">
-                                            <select class="form-select bg-dark text-light border-secondary" style="max-width: 50px;" onchange="document.getElementById('formStartTime').value=this.value; this.selectedIndex=0;" title="Pilih Cepat">
+                                            <input type="text" class="form-control bg-dark text-light border-secondary" id="formStartTime" placeholder="08:00" style="font-size: 0.8rem;">
+                                            <select class="form-select bg-dark text-light border-secondary px-1" style="max-width: 45px; font-size: 0.75rem;" onchange="document.getElementById('formStartTime').value=this.value; this.selectedIndex=0;" title="Pilih Cepat">
                                                 <option value="" disabled selected>⚡</option>
                                                 <option value="05:00">05:00</option><option value="07:00">07:00</option>
                                                 <option value="09:00">09:00</option><option value="12:00">12:00</option>
@@ -677,10 +643,10 @@
                                         </div>
                                     </div>
                                     <div class="col-6">
-                                        <label class="form-label fw-bold small">Waktu Selesai (HH:MM)</label>
+                                        <label class="form-label fw-bold small mb-1">Waktu Selesai (HH:MM)</label>
                                         <div class="input-group input-group-sm">
-                                            <input type="text" class="form-control bg-dark text-light border-secondary" id="formEndTime" placeholder="10:30">
-                                            <select class="form-select bg-dark text-light border-secondary" style="max-width: 50px;" onchange="document.getElementById('formEndTime').value=this.value; this.selectedIndex=0;" title="Pilih Cepat">
+                                            <input type="text" class="form-control bg-dark text-light border-secondary" id="formEndTime" placeholder="10:30" style="font-size: 0.8rem;">
+                                            <select class="form-select bg-dark text-light border-secondary px-1" style="max-width: 45px; font-size: 0.75rem;" onchange="document.getElementById('formEndTime').value=this.value; this.selectedIndex=0;" title="Pilih Cepat">
                                                 <option value="" disabled selected>⚡</option>
                                                 <option value="06:00">06:00</option><option value="09:00">09:00</option>
                                                 <option value="11:00">11:00</option><option value="14:00">14:00</option>
@@ -691,25 +657,25 @@
                                 </div>
 
                                 <!-- Rentang Tanggal untuk Proyek Jangka Panjang -->
-                                <div class="row g-2 mb-3 d-none" id="projectDateFieldsWrapper">
+                                <div class="row g-2 mb-2 d-none" id="projectDateFieldsWrapper">
                                     <div class="col-6">
-                                        <label class="form-label fw-bold small">Tanggal Mulai Proyek</label>
-                                        <input type="date" class="form-control form-control-sm bg-dark text-light border-secondary" id="formStartDate">
+                                        <label class="form-label fw-bold small mb-1">Tanggal Mulai Proyek</label>
+                                        <input type="date" class="form-control form-control-sm bg-dark text-light border-secondary" id="formStartDate" style="font-size: 0.8rem;">
                                     </div>
                                     <div class="col-6">
-                                        <label class="form-label fw-bold small">Target Selesai (Deadline)</label>
-                                        <input type="date" class="form-control form-control-sm bg-dark text-light border-secondary" id="formEndDate">
+                                        <label class="form-label fw-bold small mb-1">Target Selesai (Deadline)</label>
+                                        <input type="date" class="form-control form-control-sm bg-dark text-light border-secondary" id="formEndDate" style="font-size: 0.8rem;">
                                     </div>
                                 </div>
 
-                                <div class="row g-2 mb-3">
+                                <div class="row g-2 mb-2">
                                     <div class="col-6">
-                                        <label class="form-label fw-bold small">Tanggal Acuan / Mulai</label>
-                                        <input type="date" class="form-control form-control-sm bg-dark text-light border-secondary" id="formDate" required>
+                                        <label class="form-label fw-bold small mb-1">Tanggal Acuan / Mulai</label>
+                                        <input type="date" class="form-control form-control-sm bg-dark text-light border-secondary" id="formDate" required style="font-size: 0.8rem;">
                                     </div>
                                     <div class="col-6">
-                                        <label class="form-label fw-bold small">Kategori</label>
-                                        <select class="form-select form-select-sm bg-dark text-light border-secondary" id="formCategory">
+                                        <label class="form-label fw-bold small mb-1">Kategori</label>
+                                        <select class="form-select form-select-sm bg-dark text-light border-secondary" id="formCategory" style="font-size: 0.8rem;">
                                             <option value="Rutinitas Harian">Rutinitas Harian</option>
                                             <option value="Kesehatan">Kesehatan</option>
                                             <option value="Akademik & Skill">Akademik & Skill</option>
@@ -719,9 +685,9 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold small">Pola Pengulangan</label>
-                                    <select class="form-select form-select-sm bg-dark text-light border-secondary" id="formRepeat">
+                                <div class="mb-2">
+                                    <label class="form-label fw-bold small mb-1">Pola Pengulangan</label>
+                                    <select class="form-select form-select-sm bg-dark text-light border-secondary" id="formRepeat" style="font-size: 0.8rem;">
                                         <option value="once">Sekali Saja / Proyek</option>
                                         <option value="everyday">Setiap Hari</option>
                                         <option value="workdays">Hari Kerja (Senin - Jumat)</option>
@@ -732,8 +698,8 @@
                                 </div>
                             </div>
                             <div class="col-md-5">
-                                <label class="form-label fw-bold small">Pilih Warna Agenda</label>
-                                <div class="d-flex gap-2 mb-3" id="colorPalette">
+                                <label class="form-label fw-bold small mb-1">Pilih Warna Agenda</label>
+                                <div class="d-flex gap-2 mb-2" id="colorPalette">
                                     <div class="color-dot selected" style="background: #10b981;" onclick="selectColor('#10b981', this)"></div>
                                     <div class="color-dot" style="background: #3b82f6;" onclick="selectColor('#3b82f6', this)"></div>
                                     <div class="color-dot" style="background: #8b5cf6;" onclick="selectColor('#8b5cf6', this)"></div>
@@ -742,19 +708,19 @@
                                     <div class="color-dot" style="background: #ec4899;" onclick="selectColor('#ec4899', this)"></div>
                                 </div>
 
-                                <label class="form-label fw-bold small">Pilih Ikon (<span id="selectedIconName">Default</span>)</label>
+                                <label class="form-label fw-bold small mb-1">Pilih Ikon (<span id="selectedIconName">Default</span>)</label>
                                 <div class="icon-grid" id="iconPickerGrid"></div>
                                 
-                                <div class="mt-3">
-                                    <label class="form-label fw-bold small">Catatan / Detail Target</label>
-                                    <textarea class="form-control form-control-sm bg-dark text-light border-secondary" id="formDesc" rows="2" placeholder="Catatan atau rincian target..."></textarea>
+                                <div class="mt-2">
+                                    <label class="form-label fw-bold small mb-1">Catatan / Detail Target</label>
+                                    <textarea class="form-control form-control-sm bg-dark text-light border-secondary" id="formDesc" rows="2" placeholder="Catatan atau rincian target..." style="font-size: 0.8rem;"></textarea>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer bg-black bg-opacity-50 px-4 py-3 border-secondary">
-                        <button type="button" class="btn btn-secondary btn-sm px-3" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-theme btn-sm px-4">Simpan Jadwal</button>
+                    <div class="modal-footer bg-black bg-opacity-50 px-3 py-2 border-secondary">
+                        <button type="button" class="btn btn-secondary btn-sm px-3" data-bs-dismiss="modal" style="font-size: 0.78rem;">Batal</button>
+                        <button type="submit" class="btn btn-theme btn-sm px-4" style="font-size: 0.78rem;">Simpan Jadwal</button>
                     </div>
                 </form>
             </div>
@@ -798,6 +764,7 @@
             document.getElementById('filterYear').value = today.getFullYear();
             
             const todayStr = today.toISOString().split('T')[0];
+            document.getElementById('specificDateFilter').value = todayStr;
             document.getElementById('selectedDateInput').value = todayStr;
             document.getElementById('formDate').value = todayStr;
             document.getElementById('formStartDate').value = todayStr;
@@ -836,7 +803,7 @@
 
         function setTheme(themeName, save = true) {
             document.body.className = themeName;
-            if(save) localStorage.getItem('app_theme', themeName);
+            if(save) localStorage.setItem('app_theme', themeName);
         }
 
         function toggleScheduleTypeFields() {
@@ -863,6 +830,22 @@
             else if(m < 1) { m = 12; y--; }
             document.getElementById('filterMonth').value = m;
             document.getElementById('filterYear').value = y;
+            renderApp();
+        }
+
+        function onMonthOrYearChange() {
+            renderApp();
+        }
+
+        function onSpecificDateChange() {
+            const dateVal = document.getElementById('specificDateFilter').value;
+            if(!dateVal) return;
+            const parts = dateVal.split('-');
+            const y = parseInt(parts[0]);
+            const m = parseInt(parts[1]);
+            document.getElementById('filterYear').value = y;
+            document.getElementById('filterMonth').value = m;
+            document.getElementById('selectedDateInput').value = dateVal;
             renderApp();
         }
 
@@ -955,10 +938,10 @@
                 dayEvents.slice(0, 2).forEach(ev => {
                     const badgeBg = ev.color || '#10b981';
                     const timeLabel = ev.type === 'proyek' ? '[Proyek]' : ev.time;
-                    eventsHtml += `<span class="event-badge" style="background-color: ${badgeBg};" onclick="event.stopPropagation(); showDetailModal(${ev.id})" title="${ev.title}"><i class="fas ${ev.icon || 'fa-calendar-day'} me-1"></i>${timeLabel} - ${ev.title}</span>`;
+                    eventsHtml += `<span class="event-badge" style="background-color: ${badgeBg};" onclick="event.stopPropagation(); showDetailModal(${ev.id})" title="${ev.title}"><i class="fas ${ev.icon || 'fa-calendar-day'} me-0.5"></i>${timeLabel} - ${ev.title}</span>`;
                 });
                 if(dayEvents.length > 2) {
-                    eventsHtml += `<span class="text-muted" style="font-size: 0.45rem;">+${dayEvents.length - 2} lagi</span>`;
+                    eventsHtml += `<span class="text-muted" style="font-size: 0.38rem;">+${dayEvents.length - 2} lagi</span>`;
                 }
 
                 const hasClass = dayEvents.length > 0 ? 'has-event' : '';
@@ -971,12 +954,12 @@
                     <div class="calendar-cell ${hasClass}" onclick="openDayDetail('${dateStr}')">
                         <div class="calendar-date-num">${day}</div>
                         ${dayEvents.length === 0 ? `<i class="fas ${chosenIcon} empty-day-icon" style="color: ${chosenColor};"></i>` : ''}
-                        <div class="mt-1 position-relative" style="z-index: 2;">${eventsHtml}</div>
+                        <div class="mt-0.5 position-relative" style="z-index: 2;">${eventsHtml}</div>
                         <div class="add-btn-cell" onclick="event.stopPropagation(); openAddModalForDate('${dateStr}')" title="Tambah Jadwal"><i class="fas fa-plus"></i></div>
                     </div>
                 `;
             }
-            document.getElementById('totalMonthEvents').innerText = `${monthEventsCount} Agenda/Proyek`;
+            document.getElementById('totalMonthEvents').innerText = `${monthEventsCount} Agenda`;
         }
 
         function isRecurringMatch(schedule, targetDateStr) {
@@ -1004,6 +987,7 @@
 
         function openDayDetail(dateStr) {
             document.getElementById('selectedDateInput').value = dateStr;
+            document.getElementById('specificDateFilter').value = dateStr;
             new bootstrap.Tab(document.getElementById('tab-daily-btn')).show();
             renderDailyView();
         }
@@ -1031,9 +1015,9 @@
 
             if(dayEvents.length === 0) {
                 container.innerHTML = `
-                    <div class="text-center py-5 text-muted">
+                    <div class="text-center py-4 text-muted">
                         <i class="fas fa-calendar-day fa-2x mb-2 opacity-50"></i>
-                        <p class="small mb-0">Tidak ada jadwal pada tanggal ${selectedDate}.</p>
+                        <p class="small mb-0" style="font-size: 0.8rem;">Tidak ada jadwal pada tanggal ${selectedDate}.</p>
                     </div>
                 `;
                 return;
@@ -1061,23 +1045,23 @@
                 container.innerHTML += `
                     <div class="timeline-item" onclick="showDetailModal(${ev.id})">
                         <div class="d-flex justify-content-between align-items-start">
-                            <div class="d-flex gap-3 align-items-start">
-                                <div class="fs-4 mt-1" style="${iconColorStyle}"><i class="fas ${ev.icon || 'fa-calendar-day'}"></i></div>
+                            <div class="d-flex gap-2.5 align-items-start">
+                                <div class="fs-4 mt-0.5" style="${iconColorStyle}"><i class="fas ${ev.icon || 'fa-calendar-day'}"></i></div>
                                 <div>
                                     <div class="d-flex gap-1 mb-1 flex-wrap">
                                         <span class="badge badge-category bg-success text-white">${ev.category}</span>
-                                        <span class="badge bg-${priorityColor}" style="font-size: 0.65rem;">Prioritas: ${ev.priority}</span>
-                                        ${isConflict ? `<span class="badge bg-danger text-white animate-pulse" style="font-size: 0.65rem;"><i class="fas fa-exclamation-triangle me-1"></i> Konflik Jam Bertumpuk (${timeSlotsMap[ev.time].length} Agenda)</span>` : ''}
-                                        ${ev.type === 'proyek' ? `<span class="badge bg-info text-dark" style="font-size: 0.65rem;">Proyek Jangka Panjang</span>` : ''}
+                                        <span class="badge bg-${priorityColor}" style="font-size: 0.6rem;">Prioritas: ${ev.priority}</span>
+                                        ${isConflict ? `<span class="badge bg-danger text-white animate-pulse" style="font-size: 0.6rem;"><i class="fas fa-exclamation-triangle me-1"></i> Konflik Jam (${timeSlotsMap[ev.time].length})</span>` : ''}
+                                        ${ev.type === 'proyek' ? `<span class="badge bg-info text-dark" style="font-size: 0.6rem;">Proyek</span>` : ''}
                                     </div>
-                                    <h5 class="fw-bold text-light fs-6 mb-1">${ev.title}</h5>
-                                    ${ev.desc ? `<p class="text-secondary small mb-1" style="font-size: 0.78rem;">${ev.desc}</p>` : ''}
-                                    <p class="text-secondary small mb-0" style="font-size: 0.75rem;"><i class="fas fa-clock text-success me-1"></i> ${ev.type === 'proyek' ? `Proyek (${ev.startDate} s/d${ev.endDate})` : ev.time} | <span class="badge bg-dark text-light border border-secondary">${ev.repeat}</span></p>
+                                    <h5 class="fw-bold text-light mb-1" style="font-size: 0.9rem;">${ev.title}</h5>
+                                    ${ev.desc ? `<p class="text-secondary mb-1" style="font-size: 0.75rem;">${ev.desc}</p>` : ''}
+                                    <p class="text-secondary mb-0" style="font-size: 0.7rem;"><i class="fas fa-clock text-success me-1"></i> ${ev.type === 'proyek' ? `Proyek (${ev.startDate} s/d${ev.endDate})` : ev.time} | <span class="badge bg-dark text-light border border-secondary">${ev.repeat}</span></p>
                                 </div>
                             </div>
                             <div class="d-flex gap-1" onclick="event.stopPropagation()">
-                                <button class="btn btn-outline-primary btn-sm py-0 px-2" onclick="editSchedule(${ev.id})" title="Edit"><i class="fas fa-edit"></i></button>
-                                <button class="btn btn-outline-danger btn-sm py-0 px-2" onclick="deleteSchedule(${ev.id})" title="Hapus"><i class="fas fa-trash"></i></button>
+                                <button class="btn btn-outline-primary btn-sm py-0 px-1.5" onclick="editSchedule(${ev.id})" title="Edit" style="font-size: 0.7rem;"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-outline-danger btn-sm py-0 px-1.5" onclick="deleteSchedule(${ev.id})" title="Hapus" style="font-size: 0.7rem;"><i class="fas fa-trash"></i></button>
                             </div>
                         </div>
                     </div>
@@ -1093,9 +1077,9 @@
 
             if(projects.length === 0) {
                 container.innerHTML = `
-                    <div class="text-center py-5 text-muted col-12">
+                    <div class="text-center py-4 text-muted col-12">
                         <i class="fas fa-flag-checkered fa-2x mb-2 opacity-50"></i>
-                        <p class="small mb-0">Belum ada proyek jangka panjang (berhari-hari/bulan/tahun) yang ditambahkan.</p>
+                        <p class="small mb-0" style="font-size: 0.8rem;">Belum ada proyek jangka panjang yang ditambahkan.</p>
                     </div>
                 `;
                 return;
@@ -1120,18 +1104,18 @@
                                 <div class="d-flex gap-2 align-items-center">
                                     <div class="fs-4" style="color: ${colorStyle};"><i class="fas ${p.icon || 'fa-tasks'}"></i></div>
                                     <div>
-                                        <h5 class="fw-bold text-light fs-6 mb-0">${p.title}</h5>
-                                        <span class="badge bg-dark text-secondary border border-secondary" style="font-size: 0.65rem;">${p.category}</span>
+                                        <h5 class="fw-bold text-light mb-0" style="font-size: 0.88rem;">${p.title}</h5>
+                                        <span class="badge bg-dark text-secondary border border-secondary" style="font-size: 0.6rem;">${p.category}</span>
                                     </div>
                                 </div>
-                                <span class="badge bg-success" style="font-size: 0.7rem;">Target: ${totalDuration} Hari</span>
+                                <span class="badge bg-success" style="font-size: 0.65rem;">Target: ${totalDuration} Hari</span>
                             </div>
-                            <p class="text-secondary small mb-2" style="font-size: 0.78rem;">${p.desc || 'Tidak ada catatan.'}</p>
-                            <div class="d-flex justify-content-between small text-muted mb-1" style="font-size: 0.7rem;">
+                            <p class="text-secondary mb-2" style="font-size: 0.75rem;">${p.desc || 'Tidak ada catatan.'}</p>
+                            <div class="d-flex justify-content-between text-muted mb-1" style="font-size: 0.68rem;">
                                 <span>Mulai: ${p.startDate}</span>
                                 <span>Deadline: ${p.endDate}</span>
                             </div>
-                            <div class="d-flex justify-content-between small fw-bold text-light mb-1">
+                            <div class="d-flex justify-content-between fw-bold text-light mb-1" style="font-size: 0.75rem;">
                                 <span>Progres Waktu</span>
                                 <span>${progress}%</span>
                             </div>
@@ -1155,7 +1139,7 @@
 
                 let itemsHtml = '';
                 if(items.length === 0) {
-                    itemsHtml = `<p class="text-muted small italic">Tidak ada agenda dengan prioritas ini.</p>`;
+                    itemsHtml = `<p class="text-muted small italic" style="font-size: 0.75rem;">Tidak ada agenda.</p>`;
                 } else {
                     items.forEach(it => {
                         itemsHtml += `
@@ -1163,11 +1147,11 @@
                                 <div class="d-flex align-items-center gap-2">
                                     <i class="fas ${it.icon || 'fa-calendar-day'}" style="color: ${it.color || '#10b981'};"></i>
                                     <div>
-                                        <div class="fw-bold text-light small">${it.title}</div>
-                                        <div class="text-muted" style="font-size: 0.68rem;">${it.date} | ${it.category}</div>
+                                        <div class="fw-bold text-light" style="font-size: 0.78rem;">${it.title}</div>
+                                        <div class="text-muted" style="font-size: 0.65rem;">${it.date} | ${it.category}</div>
                                     </div>
                                 </div>
-                                <span class="badge bg-dark text-light border border-secondary" style="font-size: 0.65rem;">${it.type === 'proyek' ? 'Proyek' : it.time}</span>
+                                <span class="badge bg-dark text-light border border-secondary" style="font-size: 0.6rem;">${it.type === 'proyek' ? 'Proyek' : it.time}</span>
                             </div>
                         `;
                     });
@@ -1176,11 +1160,11 @@
                 container.innerHTML += `
                     <div class="col-md-4">
                         <div class="card-custom p-3 border border-secondary h-100">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h5 class="fw-bold text-light fs-6 mb-0"><i class="fas fa-signal me-2 text-success"></i> Prioritas ${pri}</h5>
-                                <span class="badge bg-${badgeColor}">${items.length} Agenda</span>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="fw-bold text-light mb-0" style="font-size: 0.88rem;"><i class="fas fa-signal me-1 text-success"></i> Prioritas ${pri}</h5>
+                                <span class="badge bg-${badgeColor}" style="font-size: 0.65rem;">${items.length}</span>
                             </div>
-                            <div class="overflow-y-auto" style="max-height: 250px;">
+                            <div class="overflow-y-auto" style="max-height: 200px;">
                                 ${itemsHtml}
                             </div>
                         </div>
@@ -1356,7 +1340,7 @@
             const removed = initialCount - masterData.jadwal.length;
             if(removed > 0) {
                 await saveMasterDataToCloud();
-                showAlert(`Berhasil membersihkan ${removed} jadwal/proyek kedaluwarsa.`);
+                showAlert(`Berhasil membersihkan ${removed} jadwal kedaluwarsa.`);
             } else {
                 showAlert("Tidak ada jadwal kedaluwarsa.", "secondary");
             }
@@ -1379,7 +1363,7 @@
 
         function showAlert(msg, type = "success") {
             const box = document.getElementById('alertBox');
-            box.className = `alert alert-${type} shadow-sm mb-4`;
+            box.className = `alert alert-${type} shadow-sm mb-3`;
             document.getElementById('alertMessage').innerText = msg;
             box.classList.add('show');
             box.classList.remove('d-none');

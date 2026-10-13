@@ -141,7 +141,7 @@
             box-shadow: 0 5px 20px var(--accent-color);
         }
 
-        /* Perbaikan Navigasi Tab Agar Rapiah di HP & Tidak Kebesaran */
+        /* Navigasi Tab */
         .nav-pills {
             display: flex;
             flex-wrap: wrap;
@@ -172,7 +172,7 @@
             animation: pulseGlow 3s infinite;
         }
 
-        /* Perbaikan Kalender Agar Proporsional & Rapi di HP */
+        /* Kalender Menjadi Kotak Sempurna (Square / 1:1 Aspect Ratio) */
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, minmax(0, 1fr));
@@ -195,20 +195,22 @@
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--border-color);
             border-radius: 10px;
-            min-height: 85px;
+            aspect-ratio: 1 / 1; /* Menjamin kotak sempurna */
             padding: 4px;
             cursor: pointer;
             position: relative;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
         @media (min-width: 768px) {
-            .calendar-cell { min-height: 115px; padding: 8px; border-radius: 14px; }
+            .calendar-cell { padding: 6px; border-radius: 12px; }
         }
         .calendar-cell:hover {
             border-color: var(--accent-color);
             background-color: rgba(255, 255, 255, 0.06);
-            transform: translateY(-2px) scale(1.01);
+            transform: scale(1.03);
         }
         .calendar-cell.has-event {
             border-left: 3px solid var(--accent-color);
@@ -219,47 +221,48 @@
         }
         .calendar-date-num {
             font-weight: 700;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: #f1f5f9;
+            line-height: 1;
         }
         @media (min-width: 768px) {
-            .calendar-date-num { font-size: 0.9rem; }
+            .calendar-date-num { font-size: 0.85rem; }
         }
         .empty-day-icon {
             position: absolute;
-            top: 58%;
+            top: 55%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             opacity: 0.15;
             pointer-events: none;
             transition: 0.3s;
         }
         @media (min-width: 768px) {
-            .empty-day-icon { font-size: 1.6rem; }
+            .empty-day-icon { font-size: 1.3rem; }
         }
         .calendar-cell:hover .empty-day-icon {
             opacity: 0.35;
-            transform: translate(-50%, -50%) scale(1.2);
+            transform: translate(-50%, -50%) scale(1.15);
         }
         .add-btn-cell {
             position: absolute;
-            bottom: 4px;
-            right: 4px;
-            width: 18px;
-            height: 18px;
+            bottom: 3px;
+            right: 3px;
+            width: 16px;
+            height: 16px;
             background: rgba(255,255,255,0.1);
             color: #cbd5e1;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.6rem;
+            font-size: 0.55rem;
             opacity: 0;
             transition: 0.2s;
         }
         @media (min-width: 768px) {
-            .add-btn-cell { bottom: 6px; right: 6px; width: 22px; height: 22px; font-size: 0.7rem; }
+            .add-btn-cell { bottom: 5px; right: 5px; width: 20px; height: 20px; font-size: 0.65rem; }
         }
         .calendar-cell:hover .add-btn-cell {
             opacity: 1;
@@ -268,21 +271,21 @@
             transform: scale(1.1);
         }
         .event-badge {
-            font-size: 0.5rem;
-            padding: 2px 4px;
-            border-radius: 4px;
-            margin-top: 2px;
+            font-size: 0.45rem;
+            padding: 1px 3px;
+            border-radius: 3px;
+            margin-top: 1px;
             display: block;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
             color: #ffffff;
             font-weight: 600;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
             transition: 0.2s;
         }
         @media (min-width: 768px) {
-            .event-badge { font-size: 0.6rem; padding: 3px 6px; border-radius: 6px; }
+            .event-badge { font-size: 0.55rem; padding: 2px 5px; border-radius: 4px; margin-top: 2px; }
         }
         .event-badge:hover {
             filter: brightness(1.2);
@@ -504,7 +507,7 @@
             </div>
         </div>
 
-        <!-- Navigasi Tab (Dirapikan Flex di HP) -->
+        <!-- Navigasi Tab -->
         <ul class="nav nav-pills mb-3 justify-content-center" id="viewTabs" role="tablist">
             <li class="nav-item" role="presentation">
                 <button class="nav-link active" id="tab-calendar-btn" data-bs-toggle="pill" data-bs-target="#viewCalendar" type="button"><i class="fas fa-calendar-alt me-1"></i> Kalender</button>
@@ -557,7 +560,7 @@
                 </div>
             </div>
 
-            <!-- TARGET JANGKA PANJANG (PROYEK BERHARI-HARI/BULANAN/TAHUNAN) -->
+            <!-- TARGET JANGKA PANJANG -->
             <div class="tab-pane fade" id="viewProjects" role="tabpanel">
                 <div class="card-custom p-3 p-md-4">
                     <h4 class="fw-bold text-light mb-3 fs-5"><i class="fas fa-flag-checkered text-success me-2"></i> Progress Proyek & Target Jangka Panjang</h4>
@@ -833,7 +836,7 @@
 
         function setTheme(themeName, save = true) {
             document.body.className = themeName;
-            if(save) localStorage.setItem('app_theme', themeName);
+            if(save) localStorage.getItem('app_theme', themeName);
         }
 
         function toggleScheduleTypeFields() {
@@ -955,7 +958,7 @@
                     eventsHtml += `<span class="event-badge" style="background-color: ${badgeBg};" onclick="event.stopPropagation(); showDetailModal(${ev.id})" title="${ev.title}"><i class="fas ${ev.icon || 'fa-calendar-day'} me-1"></i>${timeLabel} - ${ev.title}</span>`;
                 });
                 if(dayEvents.length > 2) {
-                    eventsHtml += `<span class="text-muted" style="font-size: 0.5rem;">+${dayEvents.length - 2} lagi</span>`;
+                    eventsHtml += `<span class="text-muted" style="font-size: 0.45rem;">+${dayEvents.length - 2} lagi</span>`;
                 }
 
                 const hasClass = dayEvents.length > 0 ? 'has-event' : '';

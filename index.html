@@ -18,6 +18,7 @@
             --dark-bg: #09090b;
             --card-bg: rgba(24, 24, 27, 0.88);
             --border-color: rgba(255, 255, 255, 0.12);
+            --calendar-zoom: 1; /* Variabel Zoom Kalender */
         }
 
         /* 12+ Pilihan Tema Komplet */
@@ -162,12 +163,12 @@
             animation: pulseGlow 3s infinite;
         }
 
-        /* Wrapper Kalender Khusus dengan Scroll Kiri-Kanan & Atas-Bawah */
+        /* Wrapper Kalender dengan Zoom & Scroll */
         .calendar-scroll-wrapper {
             width: 100%;
             overflow-x: auto;
             overflow-y: auto;
-            max-height: 520px;
+            max-height: 550px;
             scrollbar-width: thin;
             scrollbar-color: var(--accent-color) transparent;
         }
@@ -175,7 +176,10 @@
         .calendar-scroll-wrapper::-webkit-scrollbar-thumb { background-color: var(--accent-color); border-radius: 10px; }
 
         .calendar-inner-container {
-            min-width: 650px; /* Lebar minimum agar kalender besar tidak tertekan di HP */
+            min-width: 650px;
+            transform: scale(var(--calendar-zoom));
+            transform-origin: top left;
+            transition: transform 0.2s ease-in-out;
         }
 
         .calendar-grid {
@@ -194,7 +198,7 @@
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            min-height: 105px; /* Ukuran besar agar mudah diklik */
+            min-height: 105px;
             padding: 6px;
             cursor: pointer;
             position: relative;
@@ -296,7 +300,6 @@
             font-weight: 600;
         }
 
-        /* Grid Pemilih Ikon */
         .icon-grid {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
@@ -430,31 +433,32 @@
             <i class="fas fa-check-circle me-2"></i><span id="alertMessage">Berhasil memperbarui data!</span>
         </div>
 
-        <!-- Panel Filter & Navigasi Lengkap (Bulan, Tahun, & Tanggal Langsung) -->
+        <!-- Panel Filter & Navigasi (Disusun Rpi Multi-Baris agar Tidak Menumpuk di HP) -->
         <div class="card-custom p-3 mb-3">
-            <div class="row align-items-center g-2">
-                <div class="col-xl-8 d-flex align-items-center gap-2 flex-wrap">
+            <div class="d-flex flex-column gap-2">
+                <!-- Baris 1: Kontrol Bulan & Tahun -->
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
                     <div class="d-flex align-items-center gap-1">
                         <button class="btn btn-outline-light btn-sm px-2 py-1 rounded-pill" onclick="shiftMonth(-1)" title="Bulan Sebelumnya"><i class="fas fa-chevron-left"></i></button>
-                        <select class="form-select form-select-sm fw-bold rounded-pill px-2 bg-dark text-light border-secondary" id="filterMonth" onchange="renderApp()" style="max-width: 110px; font-size: 0.8rem;">
+                        <select class="form-select form-select-sm fw-bold rounded-pill px-2 bg-dark text-light border-secondary" id="filterMonth" onchange="renderApp()" style="max-width: 120px; font-size: 0.8rem;">
                             <option value="1">Januari</option><option value="2">Februari</option><option value="3">Maret</option>
                             <option value="4">April</option><option value="5">Mei</option><option value="6">Juni</option>
                             <option value="7">Juli</option><option value="8">Agustus</option><option value="9">September</option>
                             <option value="10">Oktober</option><option value="11">November</option><option value="12">Desember</option>
                         </select>
-                        <input type="number" class="form-control form-control-sm fw-bold text-center rounded-pill bg-dark text-light border-secondary" id="filterYear" onchange="renderApp()" value="2026" style="max-width: 75px; font-size: 0.8rem;">
+                        <input type="number" class="form-control form-control-sm fw-bold text-center rounded-pill bg-dark text-light border-secondary" id="filterYear" onchange="renderApp()" value="2026" style="max-width: 80px; font-size: 0.8rem;">
                         <button class="btn btn-outline-light btn-sm px-2 py-1 rounded-pill" onclick="shiftMonth(1)" title="Bulan Berikutnya"><i class="fas fa-chevron-right"></i></button>
                     </div>
-                    <!-- Pilihan Tanggal Langsung (Scroll/Picker Cepat ke Harian) -->
-                    <div class="d-flex align-items-center gap-1">
-                        <span class="text-secondary small" style="font-size: 0.75rem;">Pilih Tanggal:</span>
-                        <input type="date" id="quickDateJump" class="form-control form-control-sm rounded-pill bg-dark text-light border-secondary px-2" style="max-width: 135px; font-size: 0.78rem;" onchange="jumpToDateView(this.value)">
+                    <div>
+                        <button class="btn btn-outline-danger btn-sm rounded-pill px-3 fw-semibold" style="font-size: 0.78rem;" onclick="cleanExpiredSchedules()">
+                            <i class="fas fa-broom me-1"></i> Bersihkan Lewat
+                        </button>
                     </div>
                 </div>
-                <div class="col-xl-4 text-xl-end">
-                    <button class="btn btn-outline-danger btn-sm rounded-pill px-3 fw-semibold w-100 w-xl-auto" style="font-size: 0.78rem;" onclick="cleanExpiredSchedules()">
-                        <i class="fas fa-broom me-1"></i> Bersihkan Jadwal Lewat
-                    </button>
+                <!-- Baris 2: Pilihan Tanggal Cepat -->
+                <div class="d-flex align-items-center gap-2 pt-1 border-top border-secondary border-opacity-25">
+                    <span class="text-secondary small text-nowrap" style="font-size: 0.75rem;"><i class="fas fa-calendar-day me-1"></i> Lompat Tanggal:</span>
+                    <input type="date" id="quickDateJump" class="form-control form-control-sm rounded-pill bg-dark text-light border-secondary px-2" style="max-width: 150px; font-size: 0.78rem;" onchange="jumpToDateView(this.value)">
                 </div>
             </div>
         </div>
@@ -478,16 +482,25 @@
         <!-- Konten Tab -->
         <div class="tab-content" id="viewTabContent">
             
-            <!-- KALENDER BULANAN (Besar dengan Scroll Kiri Kanan & Atas Bawah) -->
+            <!-- KALENDER BULANAN (Dilengkapi Tombol Zoom In & Zoom Out Khusus HP) -->
             <div class="tab-pane fade" id="viewCalendar" role="tabpanel">
                 <div class="card-custom p-3 p-md-4">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h4 class="fw-bold text-light mb-0 fs-5" id="calendarTitle">Kalender Bulan</h4>
-                        <span class="badge bg-success px-3 py-1.5 rounded-pill small" id="totalMonthEvents">0 Agenda</span>
+                    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2 mb-3">
+                        <div>
+                            <h4 class="fw-bold text-light mb-0 fs-5" id="calendarTitle">Kalender Bulan</h4>
+                            <span class="badge bg-success px-2 py-1 rounded-pill small" id="totalMonthEvents" style="font-size: 0.65rem;">0 Agenda</span>
+                        </div>
+                        <!-- Tombol Zoom In & Zoom Out Kalender -->
+                        <div class="d-flex align-items-center gap-1 bg-dark p-1 rounded-pill border border-secondary">
+                            <span class="text-secondary small px-1" style="font-size: 0.7rem;"><i class="fas fa-search"></i> Zoom:</span>
+                            <button class="btn btn-outline-light btn-sm py-0 px-2 rounded-pill" onclick="adjustCalendarZoom(-0.15)" title="Perkecil (Zoom Out)"><i class="fas fa-search-minus"></i></button>
+                            <button class="btn btn-outline-light btn-sm py-0 px-2 rounded-pill" onclick="resetCalendarZoom()" title="Reset Ukuran"><i class="fas fa-redo-alt"></i></button>
+                            <button class="btn btn-outline-light btn-sm py-0 px-2 rounded-pill" onclick="adjustCalendarZoom(0.15)" title="Perbesar (Zoom In)"><i class="fas fa-search-plus"></i></button>
+                        </div>
                     </div>
                     
                     <div class="calendar-scroll-wrapper">
-                        <div class="calendar-inner-container">
+                        <div class="calendar-inner-container" id="calendarInnerContainer">
                             <div class="calendar-grid mb-2">
                                 <div class="calendar-day-header text-danger">Min</div>
                                 <div class="calendar-day-header">Sen</div>
@@ -723,6 +736,7 @@
         const BIN_ID = "6acda745ac6210605a2c6007";
         
         let masterData = { setting: {}, jadwal: [] };
+        let currentZoom = 1;
 
         const iconList = [
             "fa-calendar-day", "fa-clock", "fa-book", "fa-laptop-code", "fa-dumbbell", "fa-heartbeat", "fa-utensils", "fa-coffee",
@@ -762,6 +776,16 @@
             buildIconPicker();
             await fetchMasterData();
         });
+
+        function adjustCalendarZoom(amount) {
+            currentZoom = Math.min(1.4, Math.max(0.6, currentZoom + amount));
+            document.documentElement.style.setProperty('--calendar-zoom', currentZoom);
+        }
+
+        function resetCalendarZoom() {
+            currentZoom = 1;
+            document.documentElement.style.setProperty('--calendar-zoom', currentZoom);
+        }
 
         function buildIconPicker() {
             const grid = document.getElementById('iconPickerGrid');

@@ -18,7 +18,7 @@
             --dark-bg: #09090b;
             --card-bg: rgba(24, 24, 27, 0.88);
             --border-color: rgba(255, 255, 255, 0.12);
-            --global-zoom: 1;
+            --global-zoom: 0.7; /* Default awal zoom terkecil (0.7) */
         }
 
         /* 12+ Pilihan Tema Komplet */
@@ -104,7 +104,7 @@
             background-size: 200% 200%;
             animation: gradientAnimation 10s ease infinite;
             color: #ffffff;
-            padding: 2rem 1rem 2.5rem; /* Diperkecil agar tidak terlalu memakan ruang ke bawah */
+            padding: 2rem 1rem 2.5rem;
             border-bottom-left-radius: 30px;
             border-bottom-right-radius: 30px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.5);
@@ -444,7 +444,7 @@
             </div>
         </div>
 
-        <!-- Main Container (Diberikan margin-top positif dan padding yang aman agar tidak tertutup header) -->
+        <!-- Main Container -->
         <div class="container mt-4">
             
             <!-- Notifikasi Alert -->
@@ -452,7 +452,7 @@
                 <i class="fas fa-check-circle me-2"></i><span id="alertMessage">Berhasil memperbarui data!</span>
             </div>
 
-            <!-- Panel Filter & Navigasi Lengkap (Disusun Rapi Multi-Baris agar Tidak Menumpuk di HP) -->
+            <!-- Panel Filter & Navigasi Lengkap -->
             <div class="card-custom p-3 mb-3">
                 <div class="d-flex flex-column gap-2">
                     <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
@@ -745,7 +745,7 @@
         const BIN_ID = "6acda745ac6210605a2c6007";
         
         let masterData = { setting: {}, jadwal: [] };
-        let globalZoomLevel = 1;
+        let globalZoomLevel = 0.7; // Diatur default awal ke nilai zoom terkecil (0.7)
 
         const iconList = [
             "fa-calendar-day", "fa-clock", "fa-book", "fa-laptop-code", "fa-dumbbell", "fa-heartbeat", "fa-utensils", "fa-coffee",
@@ -771,6 +771,9 @@
             const savedTheme = localStorage.getItem('app_theme') || 'theme-neon';
             setTheme(savedTheme, false);
 
+            // Menerapkan nilai zoom awal (0.7) ke dokumen saat pertama dimuat
+            document.documentElement.style.setProperty('--global-zoom', globalZoomLevel);
+
             const today = new Date();
             document.getElementById('filterMonth').value = today.getMonth() + 1;
             document.getElementById('filterYear').value = today.getFullYear();
@@ -793,7 +796,7 @@
         }
 
         function resetGlobalZoom() {
-            globalZoomLevel = 1;
+            globalZoomLevel = 0.7; // Reset kembali ke zoom terkecil
             document.documentElement.style.setProperty('--global-zoom', globalZoomLevel);
         }
 
@@ -1301,97 +1304,3 @@
             const category = document.getElementById('formCategory').value;
             const priority = document.getElementById('formPriority').value;
             const type = document.getElementById('formScheduleType').value;
-            
-            const startTime = document.getElementById('formStartTime').value;
-            const endTime = document.getElementById('formEndTime').value;
-            const time = type === 'proyek' ? 'Proyek' : `${startTime} - ${endTime}`;
-
-            const date = document.getElementById('formDate').value;
-            const startDate = document.getElementById('formStartDate').value;
-            const endDate = document.getElementById('formEndDate').value;
-            const repeat = document.getElementById('formRepeat').value;
-            const desc = document.getElementById('formDesc').value;
-            const icon = document.getElementById('selectedIcon').value;
-            const color = document.getElementById('selectedColor').value;
-
-            const targetDateObj = new Date(date);
-
-            if(editId) {
-                const idx = masterData.jadwal.findIndex(j => j.id == editId);
-                if(idx !== -1) {
-                    masterData.jadwal[idx] = {
-                        ...masterData.jadwal[idx],
-                        title, category, priority, type, time, date, startDate, endDate, repeat, desc, icon, color,
-                        year: targetDateObj.getFullYear(),
-                        month: targetDateObj.getMonth() + 1,
-                        week: getWeekNumber(targetDateObj)
-                    };
-                }
-            } else {
-                const newSchedule = {
-                    id: Date.now(),
-                    title, category, priority, type, time, date, startDate, endDate, repeat, desc, icon, color,
-                    year: targetDateObj.getFullYear(),
-                    month: targetDateObj.getMonth() + 1,
-                    week: getWeekNumber(targetDateObj),
-                    status: 'pending'
-                };
-                masterData.jadwal.unshift(newSchedule);
-            }
-
-            bootstrap.Modal.getInstance(document.getElementById('modalJadwal')).hide();
-            await saveMasterDataToCloud();
-        }
-
-        async function deleteSchedule(id) {
-            if(!confirm("Yakin ingin menghapus jadwal/proyek ini?")) return;
-            masterData.jadwal = masterData.jadwal.filter(j => j.id !== id);
-            await saveMasterDataToCloud();
-        }
-
-        async function cleanExpiredSchedules() {
-            const todayStr = new Date().toISOString().split('T')[0];
-            const initialCount = masterData.jadwal.length;
-            masterData.jadwal = masterData.jadwal.filter(j => {
-                if(j.repeat === 'once' && (j.endDate || j.date) < todayStr) return false;
-                return true;
-            });
-            const removed = initialCount - masterData.jadwal.length;
-            if(removed > 0) {
-                await saveMasterDataToCloud();
-                showAlert(`Berhasil membersihkan ${removed} jadwal/proyek kedaluwarsa.`);
-            } else {
-                showAlert("Tidak ada jadwal kedaluwarsa.", "secondary");
-            }
-        }
-
-        function getWeekNumber(d) {
-            d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-            d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
-            var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
-            return Math.ceil((((d - yearStart) / 86400000) + 1)/7);
-        }
-
-        function rgbToHex(rgb) {
-            if(!rgb) return '';
-            if(rgb.startsWith('#')) return rgb;
-            const match = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-            if(!match) return rgb;
-            return "#" + match.slice(1, 4).map(x => parseInt(x).toString(16).padStart(2, '0')).join('');
-        }
-
-        function showAlert(msg, type = "success") {
-            const box = document.getElementById('alertBox');
-            box.className = `alert alert-${type} shadow-sm mb-3`;
-            document.getElementById('alertMessage').innerText = msg;
-            box.classList.add('show');
-            box.classList.remove('d-none');
-            setTimeout(() => box.classList.add('d-none'), 4000);
-        }
-
-        function showLoading(show) {
-            document.getElementById('loadingOverlay').style.display = show ? 'flex' : 'none';
-        }
-    </script>
-</body>
-</html>

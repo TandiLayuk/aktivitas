@@ -18,7 +18,7 @@
             --dark-bg: #09090b;
             --card-bg: rgba(24, 24, 27, 0.88);
             --border-color: rgba(255, 255, 255, 0.12);
-            --global-zoom: 0.7; /* Default awal zoom terkecil (0.7) */
+            --global-zoom: 0.7;
         }
 
         /* 12+ Pilihan Tema Komplet */
@@ -47,6 +47,12 @@
             100% { box-shadow: 0 0 5px var(--accent-color); }
         }
 
+        @keyframes activeGlow {
+            0% { box-shadow: 0 0 10px #ef4444; border-color: #ef4444; transform: scale(1); }
+            50% { box-shadow: 0 0 25px #ef4444; border-color: #f87171; transform: scale(1.02); }
+            100% { box-shadow: 0 0 10px #ef4444; border-color: #ef4444; transform: scale(1); }
+        }
+
         @keyframes particleFloat {
             0% { transform: translateY(0px) translateX(0px) scale(1); opacity: 0.2; }
             50% { transform: translateY(-120px) translateX(40px) scale(1.5); opacity: 0.6; }
@@ -62,6 +68,45 @@
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
+        }
+
+        /* Widget Jam Mengambang WITA di Layar */
+        .floating-clock-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1080;
+            background: rgba(24, 24, 27, 0.92);
+            backdrop-filter: blur(12px);
+            border: 2px solid var(--accent-color);
+            border-radius: 16px;
+            padding: 10px 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: pulseGlow 3s infinite;
+        }
+        .floating-clock-widget .time-text {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 1px;
+            font-family: monospace;
+        }
+        .floating-clock-widget .date-text {
+            font-size: 0.65rem;
+            color: #94a3b8;
+            font-weight: 600;
+        }
+
+        /* Styling Khusus Agenda yang Sedang Berlangsung */
+        .timeline-item.active-now {
+            border-left: 5px solid #ef4444 !important;
+            background: rgba(239, 68, 68, 0.08) !important;
+            animation: activeGlow 2s infinite;
+            border-radius: 4px 12px 12px 4px;
+            padding-left: 16px;
         }
 
         /* Wrapper Zoom Global Seluruh Halaman */
@@ -376,6 +421,15 @@
     </style>
 </head>
 <body class="theme-neon">
+
+    <!-- Widget Jam Mengambang WITA (Real-time sinkron dunia) -->
+    <div class="floating-clock-widget">
+        <div class="text-success fs-4"><i class="fas fa-clock fa-spin" style="animation-duration: 10s;"></i></div>
+        <div>
+            <div class="time-text" id="floatingWitaClock">00:00:00 WITA</div>
+            <div class="date-text" id="floatingWitaDate">Memuat Tanggal...</div>
+        </div>
+    </div>
 
     <!-- Efek Butiran Animasi Melayang -->
     <div class="particle-container">
@@ -745,7 +799,7 @@
         const BIN_ID = "6acda745ac6210605a2c6007";
         
         let masterData = { setting: {}, jadwal: [] };
-        let globalZoomLevel = 0.7; // Diatur default awal ke nilai zoom terkecil (0.7)
+        let globalZoomLevel = 0.7;
 
         const iconList = [
             "fa-calendar-day", "fa-clock", "fa-book", "fa-laptop-code", "fa-dumbbell", "fa-heartbeat", "fa-utensils", "fa-coffee",
@@ -771,14 +825,13 @@
             const savedTheme = localStorage.getItem('app_theme') || 'theme-neon';
             setTheme(savedTheme, false);
 
-            // Menerapkan nilai zoom awal (0.7) ke dokumen saat pertama dimuat
             document.documentElement.style.setProperty('--global-zoom', globalZoomLevel);
 
             const today = new Date();
             document.getElementById('filterMonth').value = today.getMonth() + 1;
             document.getElementById('filterYear').value = today.getFullYear();
             
-            const todayStr = today.toISOString().split('T')[0];
+            const todayStr = getWitaDateString(today);
             document.getElementById('selectedDateInput').value = todayStr;
             document.getElementById('quickDateJump').value = todayStr;
             document.getElementById('formDate').value = todayStr;
@@ -787,7 +840,67 @@
 
             buildIconPicker();
             await fetchMasterData();
+
+            // Jalankan Jam Mengambang WITA & Sinkronisasi Real-Time
+            setInterval(updateWitaClockAndActiveSchedules, 1000);
+            updateWitaClockAndActiveSchedules();
         });
+
+        // Mendapatkan Waktu Saat Ini Berdasarkan Zona WITA (UTC+8)
+        function getWitaCurrentTime() {
+            const now = new Date();
+            // Konversi ke WITA (UTC + 8 jam)
+            const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+            const witaTime = new Date(utc + (3600000 * 8));
+            return witaTime;
+        }
+
+        function getWitaDateString(dateObj) {
+            const year = dateObj.getFullYear();
+            const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+            const day = String(dateObj.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        // Fungsi Sinkronisasi Jam Mengambang & Pengecekan Agenda Aktif
+        function updateWitaClockAndActiveSchedules() {
+            const witaNow = getWitaCurrentTime();
+            const hours = String(witaNow.getHours()).padStart(2, '0');
+            const minutes = String(witaNow.getMinutes()).padStart(2, '0');
+            const seconds = String(witaNow.getSeconds()).padStart(2, '0');
+            
+            document.getElementById('floatingWitaClock').innerText = `${hours}:${minutes}:${seconds} WITA`;
+            
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('floatingWitaDate').innerText = witaNow.toLocaleDateString('id-ID', options);
+
+            // Sinkronisasi otomatis dengan tanggal harian aktif jika sedang di tab Harian
+            const selectedDate = document.getElementById('selectedDateInput').value;
+            const currentWitaDateStr = getWitaDateString(witaNow);
+
+            // Cek apakah ada timeline item yang harus menyala sesuai jam WITA sekarang
+            const currentTimeStr = `${hours}:${minutes}`;
+            document.querySelectorAll('.timeline-item').forEach(el => {
+                const timeLabel = el.getAttribute('data-time');
+                const dateLabel = el.getAttribute('data-date');
+                if(timeLabel && timeLabel.includes(' - ') && dateLabel === currentWitaDateStr) {
+                    const parts = timeLabel.split(' - ');
+                    const startTime = parts[0].trim();
+                    const endTime = parts[1].trim();
+                    if(currentTimeStr >= startTime && currentTimeStr <= endTime) {
+                        el.classList.add('active-now');
+                        if(!el.querySelector('.active-badge-tag')) {
+                            const badgeContainer = el.querySelector('.d-flex.gap-1.mb-1');
+                            if(badgeContainer && !badgeContainer.querySelector('.badge-active-now')) {
+                                badgeContainer.innerHTML += `<span class="badge bg-danger text-white animate-pulse badge-active-now" style="font-size: 0.65rem;"><i class="fas fa-bolt me-1"></i> SEDANG BERLANGSUNG ⚡</span>`;
+                            }
+                        }
+                    } else {
+                        el.classList.remove('active-now');
+                    }
+                }
+            });
+        }
 
         /* Fungsi Zoom Global Seluruh Halaman */
         function adjustGlobalZoom(amount) {
@@ -796,7 +909,7 @@
         }
 
         function resetGlobalZoom() {
-            globalZoomLevel = 0.7; // Reset kembali ke zoom terkecil
+            globalZoomLevel = 0.7;
             document.documentElement.style.setProperty('--global-zoom', globalZoomLevel);
         }
 
@@ -1055,6 +1168,10 @@
 
             dayEvents.sort((a, b) => (a.time || '00:00').localeCompare(b.time || '00:00'));
 
+            const witaNow = getWitaCurrentTime();
+            const currentWitaDateStr = getWitaDateString(witaNow);
+            const currentWitaTimeStr = `${String(witaNow.getHours()).padStart(2, '0')}:${String(witaNow.getMinutes()).padStart(2, '0')}`;
+
             dayEvents.forEach(ev => {
                 const priorityColor = ev.priority === 'Tinggi' ? 'danger' : ev.priority === 'Sedang' ? 'warning text-dark' : 'secondary';
                 const iconColorStyle = ev.color ? `color: ${ev.color};` : '';
@@ -1064,8 +1181,17 @@
                     isConflict = true;
                 }
 
+                // Cek apakah sedang berlangsung saat ini
+                let isActiveNow = false;
+                if(ev.type !== 'proyek' && ev.time && ev.time.includes(' - ') && selectedDate === currentWitaDateStr) {
+                    const parts = ev.time.split(' - ');
+                    if(currentWitaTimeStr >= parts[0].trim() && currentWitaTimeStr <= parts[1].trim()) {
+                        isActiveNow = true;
+                    }
+                }
+
                 container.innerHTML += `
-                    <div class="timeline-item" onclick="showDetailModal(${ev.id})">
+                    <div class="timeline-item ${isActiveNow ? 'active-now' : ''}" data-time="${ev.time || ''}" data-date="${selectedDate}" onclick="showDetailModal(${ev.id})">
                         <div class="d-flex justify-content-between align-items-start">
                             <div class="d-flex gap-3 align-items-start">
                                 <div class="fs-4 mt-1" style="${iconColorStyle}"><i class="fas ${ev.icon || 'fa-calendar-day'}"></i></div>
@@ -1073,6 +1199,7 @@
                                     <div class="d-flex gap-1 mb-1 flex-wrap">
                                         <span class="badge badge-category bg-success text-white">${ev.category}</span>
                                         <span class="badge bg-${priorityColor}" style="font-size: 0.65rem;">Prioritas: ${ev.priority}</span>
+                                        ${isActiveNow ? `<span class="badge bg-danger text-white animate-pulse" style="font-size: 0.65rem;"><i class="fas fa-bolt me-1"></i> SEDANG BERLANGSUNG ⚡</span>` : ''}
                                         ${isConflict ? `<span class="badge bg-danger text-white animate-pulse" style="font-size: 0.65rem;"><i class="fas fa-exclamation-triangle me-1"></i> Konflik Jam Bertumpuk (${timeSlotsMap[ev.time].length} Agenda)</span>` : ''}
                                         ${ev.type === 'proyek' ? `<span class="badge bg-info text-dark" style="font-size: 0.65rem;">Proyek Jangka Panjang</span>` : ''}
                                     </div>
@@ -1353,7 +1480,7 @@
         }
 
         async function cleanExpiredSchedules() {
-            const todayStr = new Date().toISOString().split('T')[0];
+            const todayStr = getWitaDateString(getWitaCurrentTime());
             const initialCount = masterData.jadwal.length;
             masterData.jadwal = masterData.jadwal.filter(j => {
                 if(j.repeat === 'once' && (j.endDate || j.date) < todayStr) return false;
@@ -1390,6 +1517,10 @@
             box.classList.add('show');
             box.classList.remove('d-none');
             setTimeout(() => box.classList.add('d-none'), 4000);
+        }
+
+        function showLearning(show) {
+            // Dummy
         }
 
         function showLoading(show) {
